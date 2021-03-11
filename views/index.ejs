@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Companies</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+      integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  </head>
+  <body>
+    <div class="container mt-4">
+      <table id="example" class="table table-striped mt-4">
+        <thead class="bg-dark text-light">
+          <tr>
+            <th style="display: none">id</th>
+            <th><i class="fas fa-sort"></i> #</th>
+            <th><i class="fas fa-sort"></i> Name</th>
+            <th><i class="fas fa-sort"></i> Register Number</th>
+            <th><i class="fas fa-sort"></i> State</th>
+            <th><i class="fas fa-sort"></i> City</th>
+            <th><i class="fas fa-sort"></i> Phone Number</th>
+            <th><i class="fas fa-sort"></i> Register Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for( let index = 0; index < companies.length; index++ ) { %>
+          <tr class="selected">
+            <td style="display: none"><%= companies[index]._id %></td>
+            <td class="tdModal tdModal"><%= `${index+1}` %></td>
+            <td class="text-capitalize">
+              <a href="/company/getOne/<%= companies[index]._id %>"><%= companies[index].name %></a>
+            </td>
+            <td class="tdModal tdModal"><%= companies[index].registerNumber %></td>
+            <td class="text-capitalize tdModal">
+              <%= companies[index].state %>
+            </td>
+            <td class="text-capitalize tdModal">
+              <%= companies[index].city %>
+            </td>
+            <td class="tdModal"><%= companies[index].phoneNumber %></td>
+            <td class="tdModal"><%= companies[index].registerDate.toLocaleDateString() %></td>
+          </tr>
+          <% } %>
+        </tbody>
+      </table>
+
+      
+      <div><p class="d-inline">From: <input type="text" class="form-control bg-light w-25 datepicker" id="fromDate"></p> <p class="d-inline">To: <input type="text" class="form-control bg-light w-25 datepicker" id="toDate"></p></div>
+      <button class="btn btn-success mt-3" id="getDateBtn">Get</button>
+      
+
+      <div class="modal" tabindex="-1" id="myModalCreate">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Add New Company</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div name="registration">
+                <div
+                  class="alert alert-success text-center d-none"
+                  role="alert"
+                  id="addCompanyAlert"
+                >
+                  Your Company Added Successfully.
+                </div>
+                <div
+                  class="alert alert-danger text-center d-none"
+                  role="alert"
+                  id="addCompanyError"
+                >
+                  Error
+                </div>
+                <div class="form-floating mb-3">
+                  <input
+                    type="text"
+                    class="form-control text-capitalize"
+                    id="addName"
+                    name="addName"
+                  />
+                  <label for="addName">Name</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="addRegisterNumber"
+                    name="addRegisterNumber"
+                  />
+                  <label for="addRegisterNumber">Register Number</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input
+                    type="text"
+                    class="form-control text-capitalize"
+                    id="addState"
+                    name="addState"
+                  />
+                  <label for="addState">State</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input
+                    type="text"
+                    class="form-control text-capitalize"
+                    id="addCity"
+                    name="addCity"
+                  />
+                  <label for="addCity">City</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="addPhoneNumber"
+                    name="addPhoneNumber" 
+                  />
+                  <label for="addPhoneNumber">Phone Number</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="addRegisterDate"
+                    name="addRegisterDate"
+                  />
+                  <label for="addRegisterDate">Register Date</label>
+                </div>
+
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                  <button
+                    type="submit"
+                    class="btn btn-primary"
+                    id="addNewCompany"
+                  >
+                    Save
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <div class="modal" tabindex="-1" id="modalUpdate">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Company Info</h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <div
+                class="alert alert-success text-center d-none"
+                role="alert"
+                id="editCompanyAlert"
+              >
+                Your Company Edited Successfully.
+              </div>
+              <div
+                class="alert alert-danger text-center d-none"
+                role="alert"
+                id="editCompanyError"
+              >
+                Unable to Edit Company.
+              </div>
+                <div class="form-floating mb-3">
+                  <input
+                    type="text"
+                    class="form-control text-capitalize"
+                    id="nameOfCompany"
+                    
+                  />
+                  <label for="nameOfCompany">Name</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="registerNumber" />
+                  <label for="registerNumber">Register Number</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input
+                    type="text"
+                    class="form-control text-capitalize"
+                    id="state"
+               
+                  />
+                  <label for="state">State</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input
+                    type="text"
+                    class="form-control text-capitalize"
+                    id="city"
+                 
+                  />
+                  <label for="city">City</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="phoneNumber" />
+                  <label for="phoneNumber">Phone Number</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="registerDate" />
+                  <label for="registerDate">Register Date</label>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  id="submitChanges"
+                >
+                  Save changes
+                </button>
+                <button class="btn btn-danger" id="deleteButton">Delete</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="/javascripts/table.js"></script>
+    <script src="/javascripts/table-boot.js"></script>
+    <script src="/javascripts/company/main.js"></script>
+    <script src="/javascripts/company/addCompany.js"></script>
+    <script src="/javascripts/company/updateCompany.js"></script>
+    <script src="/javascripts/company/dateAjax.js"></script>
+  </body>
+</html>

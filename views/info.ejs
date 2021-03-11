@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title class="text-capitalize"><%= company.name %></title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
+      crossorigin="an>onymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+      integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="container mt-4">
+      <table id="example" class="table table-striped mt-4">
+        <thead class="bg-dark text-light">
+          <tr>
+            <th style="display: none">id</th>
+            <th><i class="fas fa-sort"></i> #</th>
+            <th><i class="fas fa-sort"></i> First Name</th>
+            <th><i class="fas fa-sort"></i> Last Name</th>
+            <th><i class="fas fa-sort"></i> National Code</th>
+            <th>Gender</th>
+            <th>Manager?</th>
+            <th><i class="fas fa-sort"></i> Birthday Date</th>
+            <th>Company</th>
+          </tr>
+        </thead>
+        <tbody id="tableTbody">
+          <% for( let index = 0; index < employees.length; index++ ) { %>
+          <tr class="selected">
+            <td style="display: none"><%= employees[index]._id %></td>
+            <td><%= `${index+1}` %></td>
+            <td class="text-capitalize"><%= employees[index].firstName %></td>
+            <td class="text-capitalize"><%= employees[index].lastName %></td>
+            <td><%= employees[index].nationalCode %></td>
+            <% if (employees[index].gender === 'Male') { %>
+            <td class="text-capitalize">
+              <i class="fas fa-male text-primary" style="font-size: 30px"></i>
+              <p class="d-none">Male</p>
+            </td>
+            <%} else { %>
+            <td class="text-capitalize">
+              <i class="fas fa-female text-danger" style="font-size: 30px"></i>
+              <p class="d-none">Female</p>
+            </td>
+            <% } %> <% if (employees[index].isManager === true) { %>
+            <td>
+              <i class="fas fa-check text-success"></i>
+              <p class="d-none">YES</p>
+            </td>
+            <%} else { %>
+            <td>
+              <i class="fas fa-times text-danger"></i>
+              <p class="d-none">NO</p>
+            </td>
+            <% } %>
+            <td><%= employees[index].birthDate.toLocaleDateString() %></td>
+            <td class="text-capitalize"><%= company.name %></td>
+          </tr>
+          <% } %>
+        </tbody>
+      </table>
+
+      <div class="modal" tabindex="-1" id="addEmployeeModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Add New Employee</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div name="registration">
+                <div
+                  class="alert alert-success text-center d-none"
+                  role="alert"
+                  id="addEmployeeAlert"
+                >
+                  Your Employee Added Successfully.
+                </div>
+                <div
+                  class="alert alert-danger text-center d-none"
+                  role="alert"
+                  id="addEmployeeError"
+                >
+                  Invalid National Code
+                </div>
+                <div class="form-floating mb-3">
+                  <input
+                    type="text"
+                    class="form-control text-capitalize"
+                    id="addEmployeeFirstName"
+                    name="addEmployeeFirstName"
+                  />
+                  <label for="addEmployeeFirstName">First Name</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input
+                    type="text"
+                    class="form-control text-capitalize"
+                    id="addEmployeeLastName"
+                    name="addEmployeeLastName"
+                  />
+                  <label for="addEmployeeLastName">Last Name</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input
+                    type="text"
+                    class="form-control text-capitalize"
+                    id="addEmployeeNationalCode"
+                    name="addEmployeeNationalCode"
+                  />
+                  <label for="addEmployeeNationalCode">National Code</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <select
+                    class="form-select"
+                    aria-label="Default select example"
+                    id="addEmployeeGender"
+                  >
+                    <option value="1">Male</option>
+                    <option value="2">Female</option>
+                  </select>
+                  <label for="addEmployeeGender">Gender</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <select
+                    class="form-select"
+                    aria-label="Default select example"
+                    id="addIsManager"
+                  >
+                    <option value="1">No</option>
+                    <option value="2">Yes</option>
+                  </select>
+                  <label for="addIsManager">Manager?</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="addBirthdayDate"
+                    name="addBirthdayDate"
+                  />
+                  <label for="addBirthdayDate">Birthday Date</label>
+                </div>
+                <div>
+                  <p class="d-none" id="addEmployeeCompany">
+                    <%= company._id %>
+                  </p>
+                </div>
+
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                  <button
+                    type="submit"
+                    class="btn btn-success"
+                    id="addNewEmployee"
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal" tabindex="-1" id="updateEmployeeModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Edit Employee</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div
+                class="alert alert-success text-center d-none"
+                role="alert"
+                id="editEmployeeAlert"
+              >
+                Your Employee Edited Successfully.
+              </div>
+              <div
+                class="alert alert-danger text-center d-none"
+                role="alert"
+                id="editEmployeeError"
+              >
+                Unable to Edit Employee.
+              </div>
+              <div class="form-floating mb-3">
+                <input
+                  type="text"
+                  class="form-control text-capitalize"
+                  id="editFirstName"
+                />
+                <label for="editFirstName">First Name</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input
+                  type="text"
+                  class="form-control text-capitalize"
+                  id="editLastName"
+                />
+                <label for="editLastName">Last Name</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input
+                  type="text"
+                  class="form-control text-capitalize"
+                  id="editNationalCode"
+                />
+                <label for="editNationalCode">National Code</label>
+              </div>
+              <div class="form-floating mb-3" id="editGenderDom"></div>
+              <div class="form-floating mb-3" id="editManagerDom"></div>
+              <div class="form-floating mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="editBirthdayDate"
+                  readonly
+                />
+                <label for="editBirthdayDate">Birthday Date</label>
+                <input type="date" class="form-control" id="birthdayDate" />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="button" class="btn btn-primary" id="submitEmployee">
+                Save changes
+              </button>
+              <button class="btn btn-danger" id="deleteEmployee">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="/javascripts/table.js"></script>
+    <script src="/javascripts/table-boot.js"></script>
+    <script src="/javascripts/employee/main.js"></script>
+    <script src="/javascripts/employee/addEmployee.js"></script>
+    <script src="/javascripts/employee/updateEmployee.js"></script>
+  </body>
+</html>
