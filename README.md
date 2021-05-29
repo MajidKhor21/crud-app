@@ -1,9 +1,10 @@
-<h3 align="center">CRUD APP FOR COMPANIES_EMPLOOYES</h3>
+# CRUD App for Companies/Employees System with Express.js MongoDB
 
-<h3 align="left">Languages and Tools:</h3>
-<h4>Bootstrap 5</h4>
-<h4>NodeJS</h4>
-<h4>ExpressJS</h4>
-<h4>Javascript</h4>
-<h4>JQUERY</h4>
-<h4>EJS</h4>
+### For Using This Application Run These Commands
+
+```bash
+1. npm install
+2. npm start
+3. Open Your Browser
+4. Search URL http://localhost:8080
+```
